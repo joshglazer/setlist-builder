@@ -1,10 +1,11 @@
 import { Button, Grid } from "@mui/material";
+import { compressToEncodedURIComponent } from "lz-string";
 import { useState } from "react";
-import { Set, Setlist } from "./types";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
+import { useCopyToClipboard } from "usehooks-ts";
 import SetEditor from "./SetEditor";
 import SongDragAndDrop from "./SongDragAndDrop";
-
+import { Set, Setlist, Song } from "./types";
 interface SetlistEditorProps {
   initialSetlist: Setlist;
 }
@@ -13,6 +14,7 @@ export default function SetlistEditor({
   initialSetlist,
 }: SetlistEditorProps): JSX.Element {
   const [setlist, setSetlist] = useState<Setlist>(initialSetlist);
+  const [value, copy] = useCopyToClipboard();
 
   function renderSet(set: Set, index: number): JSX.Element {
     return <SetEditor key={index} index={index} set={set} />;
@@ -23,23 +25,23 @@ export default function SetlistEditor({
   }
 
   function addSetlist() {
+    const newSetlist = structuredClone(setlist);
     setSetlist({
-      ...setlist,
-      sets: [...setlist.sets, { songs: [] }],
+      ...newSetlist,
+      sets: [...newSetlist.sets, { songs: [] }],
     });
   }
 
   function renderAvailableSongs() {
     return (
       <>
-        <div>{setlist.title}</div>
         <Droppable droppableId="available">
           {(provided, snapshot) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               {setlist.availableSongs.map((availableSong, index) => (
                 <SongDragAndDrop
-                  key={availableSong.track?.id}
-                  track={availableSong.track}
+                  key={availableSong.spotifyTrackId}
+                  song={availableSong}
                   index={index}
                 />
               ))}
@@ -61,8 +63,8 @@ export default function SetlistEditor({
     destinationId: string,
     destinationIndex: number
   ) {
-    let song: SpotifyApi.PlaylistTrackObject | null = null;
-    const newSetlist = { ...setlist };
+    let song: Song | null = null;
+    const newSetlist = structuredClone(setlist);
 
     if (sourceId === "available") {
       song = setlist.availableSongs[sourceIndex];
@@ -87,7 +89,6 @@ export default function SetlistEditor({
   }
 
   function onDragEnd(result: DropResult) {
-    console.log(result);
     const { source, destination } = result;
     if (destination) {
       moveSong(
@@ -99,19 +100,35 @@ export default function SetlistEditor({
     }
   }
 
+  function copyLink() {
+    let url = `${window.location.protocol}//${
+      window.location.host
+    }/setlist/edit/${compressToEncodedURIComponent(JSON.stringify(setlist))}`;
+
+    console.log(url);
+
+    copy(url);
+  }
+
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          {renderSetlists()}
-          <Button variant="contained" onClick={addSetlist}>
-            Add Set
-          </Button>
+    <>
+      <div>{setlist.title}</div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            {renderSetlists()}
+            <Button variant="contained" onClick={addSetlist}>
+              Add Set
+            </Button>
+            <Button variant="contained" onClick={copyLink}>
+              Copy Link to Share
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            {renderAvailableSongs()}
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          {renderAvailableSongs()}
-        </Grid>
-      </Grid>
-    </DragDropContext>
+      </DragDropContext>
+    </>
   );
 }

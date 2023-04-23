@@ -2,17 +2,18 @@ interface Setlist {
   title: string;
   date?: Date;
   sets: Set[];
-  availableSongs: SpotifyApi.PlaylistTrackObject[];
+  availableSongs: Song[];
 }
 
 interface Set {
-  songs: SpotifyApi.PlaylistTrackObject[];
+  songs: Song[];
 }
 
 interface Song {
+  spotifyTrackId: string;
   artist: string;
   title: string;
-  length: number;
+  duration: number;
 }
 
 export { type Setlist, type Set, type Song };

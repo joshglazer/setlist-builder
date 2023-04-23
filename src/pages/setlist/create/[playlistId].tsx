@@ -1,4 +1,4 @@
-import { Setlist } from "@/components/SetlistEditor";
+import { convertTrackToSong, Setlist } from "@/components/SetlistEditor";
 import SetlistEditor from "@/components/SetlistEditor/SetlistEditor";
 import { getPlaylistDetails } from "@/pages/api/spotify";
 import { useRouter } from "next/router";
@@ -21,7 +21,8 @@ export default function SetlistCreateFromPlaylist(): JSX.Element {
                 songs: [],
               },
             ],
-            availableSongs: playlistDetailsResponse.tracks.items,
+            availableSongs:
+              playlistDetailsResponse.tracks.items.map(convertTrackToSong),
           };
           setSetlist(setlistFromPlaylist);
         }

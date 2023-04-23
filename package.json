@@ -21,11 +21,14 @@
     "@types/spotify-api": "^0.0.21",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
+    "lz-string": "^1.5.0",
     "next": "13.3.1",
+    "pretty-ms": "^8.0.0",
     "query-string": "^8.1.0",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "usehooks-ts": "^2.9.1"
   }
 }

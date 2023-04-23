@@ -3,20 +3,18 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Draggable } from "react-beautiful-dnd";
+import { Song } from "./types";
+import prettyMilliseconds from "pretty-ms";
 
 interface SongProps {
-  track: SpotifyApi.TrackObjectFull | null;
+  song: Song;
   index: number;
 }
 
-export default function SongDragAndDrop({ track, index }: SongProps) {
-  if (!track) {
-    return <></>;
-  }
-
-  const { id, name, artists, duration_ms } = track;
+export default function SongDragAndDrop({ song, index }: SongProps) {
+  const { spotifyTrackId, title, artist, duration } = song;
   return (
-    <Draggable key={id} draggableId={id} index={index}>
+    <Draggable key={spotifyTrackId} draggableId={spotifyTrackId} index={index}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -27,8 +25,11 @@ export default function SongDragAndDrop({ track, index }: SongProps) {
             <CardContent sx={{ display: "flex", alignItems: "center" }}>
               <DragIndicatorOutlinedIcon />
               <Box>
-                <div>{name}</div>
-                <div>{artists.map((artist) => artist.name).join(", ")}</div>
+                <div>{title}</div>
+                <div>{artist}</div>
+              </Box>
+              <Box>
+                {prettyMilliseconds(duration, { secondsDecimalDigits: 0 })}
               </Box>
               {snapshot.isDragging && "on the move"}
             </CardContent>
