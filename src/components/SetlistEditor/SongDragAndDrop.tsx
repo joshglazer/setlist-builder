@@ -24,14 +24,14 @@ export default function SongDragAndDrop({ song, index }: SongProps) {
           <Card variant="outlined">
             <CardContent sx={{ display: "flex", alignItems: "center" }}>
               <DragIndicatorOutlinedIcon />
-              <Box>
+              <Box sx={{ px: 2 }}>
                 <div>{title}</div>
                 <div>{artist}</div>
               </Box>
-              <Box>
+              <Box sx={{ ml: "auto" }}>
                 {prettyMilliseconds(duration, { secondsDecimalDigits: 0 })}
               </Box>
-              {snapshot.isDragging && "on the move"}
+              {/* {snapshot.isDragging && "on the move"} */}
             </CardContent>
           </Card>
         </div>

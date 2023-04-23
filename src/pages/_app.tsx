@@ -1,3 +1,4 @@
+import { Layout } from "@/layout";
 import "@/styles/globals.css";
 import createEmotionCache from "@/utils/createEmotionCache";
 import theme from "@/utils/theme";
@@ -28,7 +29,9 @@ export default function App({
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon.
   remove the margins of all browsers and apply the material design background color */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ThemeProvider>
     </CacheProvider>
   );

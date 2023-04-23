@@ -1,3 +1,5 @@
+import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import prettyMilliseconds from "pretty-ms";
 import { useCallback } from "react";
@@ -12,7 +14,6 @@ interface SetEditorProps {
 
 export default function SetEditor({ index, set }: SetEditorProps): JSX.Element {
   const getSetDuration = useCallback(() => {
-    console.log(set);
     const initialValue = 0;
     return set.songs.reduce(
       (accumulator, currentValue) => accumulator + currentValue.duration,
@@ -22,10 +23,30 @@ export default function SetEditor({ index, set }: SetEditorProps): JSX.Element {
 
   return (
     <Paper sx={{ marginBottom: "2em" }}>
-      <div>Set #{index + 1}</div>
-      <div>
-        {prettyMilliseconds(getSetDuration(), { secondsDecimalDigits: 0 })}
-      </div>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          p: 1,
+        }}
+      >
+        <Typography
+          variant="body1"
+          sx={{
+            fontWeight: "bold",
+          }}
+        >
+          Set #{index + 1}
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            fontWeight: "bold",
+          }}
+        >
+          {prettyMilliseconds(getSetDuration(), { secondsDecimalDigits: 0 })}
+        </Typography>
+      </Box>
       <Droppable droppableId={`set-${index}`}>
         {(provided, snapshot) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
