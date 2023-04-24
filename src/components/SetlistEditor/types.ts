@@ -2,7 +2,7 @@ interface Setlist {
   title: string;
   date?: Date;
   sets: Set[];
-  availableSongs: Song[];
+  unusedSongs: Song[];
 }
 
 interface Set {

@@ -21,7 +21,7 @@ export default function SetlistCreateFromPlaylist(): JSX.Element {
                 songs: [],
               },
             ],
-            availableSongs:
+            unusedSongs:
               playlistDetailsResponse.tracks.items.map(convertTrackToSong),
           };
           setSetlist(setlistFromPlaylist);

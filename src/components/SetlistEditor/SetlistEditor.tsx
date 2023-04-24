@@ -1,6 +1,8 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import Snackbar from "@mui/material/Snackbar";
 import Typography from "@mui/material/Typography";
 import { compressToEncodedURIComponent } from "lz-string";
@@ -37,23 +39,41 @@ export default function SetlistEditor({
     });
   }
 
-  function renderAvailableSongs() {
+  function renderUnusedSongs() {
     return (
-      <>
-        <Droppable droppableId="available">
-          {(provided, snapshot) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              {setlist.availableSongs.map((availableSong, index) => (
-                <SongDragAndDrop
-                  key={availableSong.spotifyTrackId}
-                  song={availableSong}
-                  index={index}
-                />
-              ))}
-            </div>
-          )}
-        </Droppable>
-      </>
+      <Paper elevation={1}>
+        <Container sx={{ p: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              p: 1,
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+              }}
+            >
+              Unused Songs
+            </Typography>
+          </Box>
+          <Droppable droppableId="unused">
+            {(provided, snapshot) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {setlist.unusedSongs.map((unusedSong, index) => (
+                  <SongDragAndDrop
+                    key={unusedSong.spotifyTrackId}
+                    song={unusedSong}
+                    index={index}
+                  />
+                ))}
+              </div>
+            )}
+          </Droppable>
+        </Container>
+      </Paper>
     );
   }
 
@@ -71,10 +91,10 @@ export default function SetlistEditor({
     let song: Song | null = null;
     const newSetlist = structuredClone(setlist);
 
-    if (sourceId === "available") {
-      song = setlist.availableSongs[sourceIndex];
+    if (sourceId === "unused") {
+      song = setlist.unusedSongs[sourceIndex];
       if (song) {
-        newSetlist.availableSongs.splice(sourceIndex, 1);
+        newSetlist.unusedSongs.splice(sourceIndex, 1);
       }
     } else if (sourceId.startsWith("set-")) {
       const setIndex = getSetlistIndexFromContainerId(sourceId);
@@ -86,8 +106,8 @@ export default function SetlistEditor({
       if (destinationId.startsWith("set-")) {
         const setIndex = getSetlistIndexFromContainerId(destinationId);
         newSetlist.sets[setIndex].songs.splice(destinationIndex, 0, song);
-      } else if (sourceId.startsWith("available")) {
-        newSetlist.availableSongs.splice(destinationIndex, 0, song);
+      } else if (sourceId.startsWith("unused")) {
+        newSetlist.unusedSongs.splice(destinationIndex, 0, song);
       }
     }
     setSetlist(newSetlist);
@@ -143,7 +163,7 @@ export default function SetlistEditor({
             </Button>
           </Grid>
           <Grid item xs={6}>
-            {renderAvailableSongs()}
+            {renderUnusedSongs()}
           </Grid>
         </Grid>
       </DragDropContext>
