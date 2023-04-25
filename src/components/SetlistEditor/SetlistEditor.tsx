@@ -41,27 +41,35 @@ export default function SetlistEditor({
 
   function renderUnusedSongs() {
     return (
-      <Paper elevation={1}>
-        <Container sx={{ p: 2 }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              p: 1,
-            }}
-          >
-            <Typography
-              variant="body1"
+      <Droppable droppableId="unused">
+        {(provided, snapshot) => (
+          <div>
+            <Paper
+              elevation={1}
+              ref={provided.innerRef}
               sx={{
-                fontWeight: "bold",
+                p: 2,
+                backgroundColor: snapshot.isDraggingOver ? "grey.300" : "auto",
               }}
+              {...provided.droppableProps}
             >
-              Unused Songs
-            </Typography>
-          </Box>
-          <Droppable droppableId="unused">
-            {(provided, snapshot) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  p: 1,
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontWeight: "bold",
+                  }}
+                >
+                  Unused Songs
+                </Typography>
+              </Box>
+              <Box>
                 {setlist.unusedSongs.map((unusedSong, index) => (
                   <SongDragAndDrop
                     key={unusedSong.spotifyTrackId}
@@ -69,11 +77,11 @@ export default function SetlistEditor({
                     index={index}
                   />
                 ))}
-              </div>
-            )}
-          </Droppable>
-        </Container>
-      </Paper>
+              </Box>
+            </Paper>
+          </div>
+        )}
+      </Droppable>
     );
   }
 
@@ -106,7 +114,7 @@ export default function SetlistEditor({
       if (destinationId.startsWith("set-")) {
         const setIndex = getSetlistIndexFromContainerId(destinationId);
         newSetlist.sets[setIndex].songs.splice(destinationIndex, 0, song);
-      } else if (sourceId.startsWith("unused")) {
+      } else if (destinationId === "unused") {
         newSetlist.unusedSongs.splice(destinationIndex, 0, song);
       }
     }

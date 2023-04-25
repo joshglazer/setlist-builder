@@ -23,35 +23,46 @@ export default function SetEditor({ index, set }: SetEditorProps): JSX.Element {
   }, [set]);
 
   return (
-    <Paper sx={{ marginBottom: "2em" }} elevation={1}>
-      <Container sx={{ p: 2 }}>
-        <Box
+    <Droppable droppableId={`set-${index}`}>
+      {(provided, snapshot) => (
+        <Paper
+          ref={provided.innerRef}
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            p: 1,
+            marginBottom: "2em",
+            backgroundColor: snapshot.isDraggingOver ? "grey.300" : "auto",
           }}
+          elevation={1}
+          {...provided.droppableProps}
         >
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: "bold",
-            }}
-          >
-            Set #{index + 1}
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: "bold",
-            }}
-          >
-            {prettyMilliseconds(getSetDuration(), { secondsDecimalDigits: 0 })}
-          </Typography>
-        </Box>
-        <Droppable droppableId={`set-${index}`}>
-          {(provided, snapshot) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
+          <Container sx={{ p: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                p: 1,
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  fontWeight: "bold",
+                }}
+              >
+                Set #{index + 1}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  fontWeight: "bold",
+                }}
+              >
+                {prettyMilliseconds(getSetDuration(), {
+                  secondsDecimalDigits: 0,
+                })}
+              </Typography>
+            </Box>
+
+            <Box>
               {!!set.songs.length ? (
                 set.songs.map((song, index) => (
                   <SongDragAndDrop
@@ -63,10 +74,10 @@ export default function SetEditor({ index, set }: SetEditorProps): JSX.Element {
               ) : (
                 <div>Drag and drop songs here</div>
               )}
-            </div>
-          )}
-        </Droppable>
-      </Container>
-    </Paper>
+            </Box>
+          </Container>
+        </Paper>
+      )}
+    </Droppable>
   );
 }
