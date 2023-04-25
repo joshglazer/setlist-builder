@@ -1,7 +1,8 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
+import Hidden from "@mui/material/Hidden";
 import Paper from "@mui/material/Paper";
 import Snackbar from "@mui/material/Snackbar";
 import Typography from "@mui/material/Typography";
@@ -164,13 +165,16 @@ export default function SetlistEditor({
       </Box>
       <DragDropContext onDragEnd={onDragEnd}>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             {renderSetlists()}
             <Button variant="contained" onClick={addSetlist}>
               Add Set
             </Button>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
+            <Hidden smUp>
+              <Divider sx={{ my: 2 }} />
+            </Hidden>
             {renderUnusedSongs()}
           </Grid>
         </Grid>
