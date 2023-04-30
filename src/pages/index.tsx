@@ -1,8 +1,5 @@
-import SetlistEditor from "@/components/SetlistEditor/SetlistEditor";
-import styles from "@/styles/Home.module.css";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Inter } from "next/font/google";
-import Head from "next/head";
 import { authorizeUrl } from "./api/spotify";
 
 const inter = Inter({ subsets: ["latin"] });

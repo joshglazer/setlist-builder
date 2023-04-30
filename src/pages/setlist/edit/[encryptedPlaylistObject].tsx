@@ -8,10 +8,6 @@ export default function SetlistCreateFromPlaylist(): JSX.Element {
   const router = useRouter();
   const { encryptedPlaylistObject } = router.query;
 
-  const decrypt = function (value: string): string {
-    return Buffer.from(value, "base64").toString();
-  };
-
   const [setlist, setSetlist] = useState<Setlist>();
 
   useEffect(() => {

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import queryString from "query-string";
 import { useRouter } from "next/navigation";
+import queryString from "query-string";
+import { useEffect } from "react";
 
 export default function Connect() {
   const router = useRouter();

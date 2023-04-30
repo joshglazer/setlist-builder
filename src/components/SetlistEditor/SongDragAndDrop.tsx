@@ -15,7 +15,7 @@ export default function SongDragAndDrop({ song, index }: SongProps) {
   const { spotifyTrackId, title, artist, duration } = song;
   return (
     <Draggable key={spotifyTrackId} draggableId={spotifyTrackId} index={index}>
-      {(provided, snapshot) => (
+      {(provided, _snapshot) => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -31,7 +31,6 @@ export default function SongDragAndDrop({ song, index }: SongProps) {
               <Box sx={{ ml: "auto" }}>
                 {prettyMilliseconds(duration, { secondsDecimalDigits: 0 })}
               </Box>
-              {/* {snapshot.isDragging && "on the move"} */}
             </CardContent>
           </Card>
         </div>

@@ -63,7 +63,7 @@ export default function SetEditor({ index, set }: SetEditorProps): JSX.Element {
             </Box>
 
             <Box>
-              {!!set.songs.length ? (
+              {set.songs.length ? (
                 set.songs.map((song, index) => (
                   <SongDragAndDrop
                     key={song.spotifyTrackId}
