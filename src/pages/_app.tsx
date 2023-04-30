@@ -24,6 +24,12 @@ export default function App({
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>Setlist Builder</title>
+        <meta
+          name="description"
+          content="This is a tool that can be used to build a setlist"
+        />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon.

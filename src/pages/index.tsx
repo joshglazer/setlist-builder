@@ -1,6 +1,6 @@
 import SetlistEditor from "@/components/SetlistEditor/SetlistEditor";
 import styles from "@/styles/Home.module.css";
-import { Button } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import { authorizeUrl } from "./api/spotify";
@@ -13,23 +13,24 @@ export default function Home() {
   }
 
   return (
-    <>
-      <Head>
-        <title>Setlist Builder</title>
-        <meta
-          name="description"
-          content="This is a tool that can be used to build a setlist"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
-          <Button onClick={handleSpotifyAuthorization}>
-            Connect Spotify Account
-          </Button>
-        </div>
-      </main>
-    </>
+    <Box>
+      <Typography variant="h5">
+        Get started with the Setlist Builder!
+      </Typography>
+      <Typography variant="body1">
+        This is a tool that helps you build a setlist based on a playlist that
+        you have created or subscribed to with your spotify account.
+      </Typography>
+      <Typography variant="body1">
+        To get started, click the button below.
+      </Typography>
+      <Button
+        onClick={handleSpotifyAuthorization}
+        color="primary"
+        variant="contained"
+      >
+        Connect Spotify Account
+      </Button>
+    </Box>
   );
 }
